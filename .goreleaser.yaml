@@ -1,0 +1,51 @@
+version: 2
+project_name: laccd-courses-pp-cli
+changelog:
+  disable: true
+builds:
+  - id: laccd-courses-pp-cli
+    main: ./cmd/laccd-courses-pp-cli
+    binary: laccd-courses-pp-cli
+    env:
+      - CGO_ENABLED=0
+    ldflags:
+      - -s -w -X laccd-courses-pp-cli/internal/cli.version={{ .Version }}
+    targets:
+      - darwin_amd64
+      - darwin_arm64
+      - linux_amd64
+      - linux_arm64
+      - windows_amd64
+      - windows_arm64
+  - id: laccd-courses-pp-mcp
+    main: ./cmd/laccd-courses-pp-mcp
+    binary: laccd-courses-pp-mcp
+    env:
+      - CGO_ENABLED=0
+    ldflags:
+      - -s -w -X main.version={{ .Version }}
+    targets:
+      - darwin_amd64
+      - darwin_arm64
+      - linux_amd64
+      - linux_arm64
+      - windows_amd64
+      - windows_arm64
+archives:
+  - formats: [tar.gz]
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+checksum:
+  name_template: checksums.txt
+brews:
+  - name: laccd-courses-pp-cli
+    repository:
+      owner: johnnyrobot
+      name: homebrew-tap
+    homepage: "https://github.com/johnnyrobot/laccd-courses-pp-cli"
+    description: "Search every LACCD course and program across all 9 colleges from your terminal — with cross-college comparison, prerequisite chains, and offline search the per-college web catalog can't do."
+    install: |
+      bin.install "laccd-courses-pp-cli"
+      bin.install "laccd-courses-pp-mcp"

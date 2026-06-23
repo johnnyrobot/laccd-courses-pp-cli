@@ -1,0 +1,246 @@
+name: laccd-courses
+description: "Search the LACCD public course and program catalog (all 9 colleges) from the terminal"
+version: "0.1.0"
+base_url: "https://portalapi-laccd.elumenapp.com"
+spec_source: sniffed
+category: other
+http_transport: standard
+health_check_path: "/public/tenants/"
+
+# The LACCD public course catalog is served by eLumen's portal API. Every
+# /public/* endpoint is anonymous (no key, no cookie). Discovered by browser-
+# sniffing https://laccd.elumenapp.com/public/courses (an Angular SPA) plus
+# direct HTTP probing of the portalapi backend.
+auth:
+  type: none
+
+config:
+  format: toml
+  path: "~/.config/laccd-courses-pp-cli/config.toml"
+
+resources:
+  courses:
+    description: "Search the LACCD course catalog and fetch full course outlines"
+    endpoints:
+      search:
+        method: GET
+        path: "/public/courses"
+        description: "Search or browse approved courses across LACCD. Leave --query empty to browse a whole college (or all 9). Full-text matches course code, title, and description."
+        params:
+          - name: query
+            type: string
+            required: false
+            description: "Search term matched against course code, title, and description (e.g. 'accounting', 'biology'). Optional — leave empty to browse the full catalog."
+          - name: status
+            type: string
+            required: false
+            default: "approved"
+            description: "Course status filter (default 'approved' = the published public catalog)."
+          - name: tenant
+            type: string
+            required: false
+            description: "Limit to one LACCD college by its eLumen tenant host, e.g. 'elac.elumenapp.com'. Run 'colleges list' for all 9 hosts. Omit to search the whole district."
+          - name: pageSize
+            flag_name: page-size
+            type: int
+            required: false
+            default: 25
+            description: "Results per page (default 25)."
+          - name: page
+            type: int
+            required: false
+            default: 1
+            description: "Page number — 1-indexed. The first page is 1; page 0 triggers an upstream HTTP 502 (eLumen backend quirk)."
+          - name: sort
+            type: string
+            required: false
+            description: "Sort spec, e.g. 'courseSubject,asc' or 'code,desc'."
+        response:
+          type: array
+          item: Course
+        response_path: "_embedded.courses"
+      get:
+        method: GET
+        path: "/public/courses/{course_id}"
+        description: "Fetch a single course by its numeric catalog id, including the full course outline (units, hours, requisites, outcomes, objectives, description)."
+        params:
+          - name: course_id
+            type: string
+            required: true
+            positional: true
+            description: "Numeric course id (the 'id' field from a search result, e.g. 40830)."
+        response:
+          type: object
+          item: Course
+
+  programs:
+    description: "Search LACCD degree and certificate programs and fetch full program details"
+    endpoints:
+      search:
+        method: GET
+        path: "/public/programs"
+        description: "Search or browse LACCD degree and certificate programs. Leave --query empty to browse a college's full program list. Full-text matches program name and description."
+        params:
+          - name: query
+            type: string
+            required: false
+            description: "Search term matched against program name and description (e.g. 'nursing', 'business'). Optional — leave empty to browse all programs."
+          - name: status
+            type: string
+            required: false
+            description: "Program status filter (e.g. approved). Optional — omit to search all statuses."
+          - name: tenant
+            type: string
+            required: false
+            description: "Limit to one LACCD college by its eLumen tenant host, e.g. 'pierce.elumenapp.com'. Run 'colleges list' for all 9 hosts. Omit to search the whole district."
+          - name: pageSize
+            flag_name: page-size
+            type: int
+            required: false
+            default: 25
+            description: "Results per page (default 25)."
+          - name: page
+            type: int
+            required: false
+            default: 1
+            description: "Page number — 1-indexed. The first page is 1; page 0 triggers an upstream HTTP 502 (eLumen backend quirk)."
+        response:
+          type: array
+          item: Program
+        response_path: "_embedded.programs"
+      get:
+        method: GET
+        path: "/public/programs/{program_id}"
+        description: "Fetch a single program by its numeric id, including award type, credit ranges, requirements, and SLOs."
+        params:
+          - name: program_id
+            type: string
+            required: true
+            positional: true
+            description: "Numeric program id (the 'id' field from a program search result, e.g. 255)."
+        response:
+          type: object
+          item: Program
+
+  colleges:
+    description: "List the LACCD colleges (eLumen tenants) available in the catalog"
+    endpoints:
+      list:
+        method: GET
+        path: "/public/tenants/"
+        description: "List the 9 LACCD colleges, their tenant codes, and catalog base URLs."
+        response:
+          type: array
+          item: College
+
+  config:
+    description: "Read the catalog's public configuration values"
+    endpoints:
+      list:
+        method: GET
+        path: "/public/configurations"
+        description: "List the public eLumen catalog configuration key/value pairs (review windows, presentation settings)."
+        response:
+          type: array
+          item: Configuration
+
+types:
+  Course:
+    fields:
+      - name: id
+        type: int
+      - name: code
+        type: string
+      - name: name
+        type: string
+      - name: subject
+        type: string
+      - name: number
+        type: string
+      - name: suffix
+        type: string
+      - name: tenant
+        type: string
+      - name: status
+        type: string
+      - name: statusId
+        type: int
+      - name: workflowType
+        type: string
+      - name: objectType
+        type: string
+      - name: originCourseId
+        type: int
+      - name: curriculumId
+        type: string
+      - name: courseFamilyId
+        type: int
+      - name: creationDate
+        type: string
+      - name: districtApprovalDate
+        type: string
+      - name: expirationDate
+        type: string
+
+  Program:
+    fields:
+      - name: id
+        type: int
+      - name: name
+        type: string
+      - name: tenant
+        type: string
+      - name: description
+        type: string
+      - name: status
+        type: string
+      - name: programVersionStatus
+        type: string
+      - name: topCode
+        type: string
+      - name: controlNumber
+        type: string
+      - name: curriculumId
+        type: string
+      - name: startTermName
+        type: string
+      - name: awardType
+        type: string
+      - name: minCredits
+        type: float
+      - name: maxCredits
+        type: float
+      - name: statusId
+        type: int
+      - name: originProgramId
+        type: int
+      - name: uuid
+        type: string
+      - name: creationDate
+        type: string
+      - name: districtApprovalDate
+        type: string
+
+  College:
+    fields:
+      - name: id
+        type: int
+      - name: name
+        type: string
+      - name: displayName
+        type: string
+      - name: baseUrl
+        type: string
+
+  Configuration:
+    fields:
+      - name: id
+        type: int
+      - name: configuration_key
+        type: string
+      - name: configuration_value
+        type: string
+      - name: creation_date
+        type: string
+      - name: last_modification_date
+        type: string

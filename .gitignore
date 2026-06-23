@@ -1,0 +1,16 @@
+# Build artifacts
+/build/
+/laccd-courses-pp-cli
+/laccd-courses-pp-mcp
+*.mcpb
+dist/
+
+# Local data / state
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+
+# OS / editor
+.DS_Store
+*.swp

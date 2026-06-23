@@ -1,0 +1,147 @@
+{
+  "api_name": "laccd-courses",
+  "base_url": "https://portalapi-laccd.elumenapp.com",
+  "description": "Search every LACCD course and program across all 9 colleges from your terminal — with cross-college comparison, prerequisite chains, and offline search the per-college web catalog can't do.",
+  "mcp_ready": "full",
+  "http_transport": "standard",
+  "auth": {
+    "type": "none"
+  },
+  "required_headers": [],
+  "tools": [
+    {
+      "name": "colleges_list",
+      "description": "List the 9 LACCD colleges, their tenant codes, and catalog base URLs. Returns array of College.",
+      "method": "GET",
+      "path": "/public/tenants/",
+      "no_auth": true,
+      "params": []
+    },
+    {
+      "name": "config_list",
+      "description": "List the public eLumen catalog configuration key/value pairs (review windows, presentation settings). Returns array of Configuration.",
+      "method": "GET",
+      "path": "/public/configurations",
+      "no_auth": true,
+      "params": []
+    },
+    {
+      "name": "courses_get",
+      "description": "Fetch a single course by its numeric catalog id, including the full course outline (units, hours, requisites, outcomes, objectives, description). Required: course_id. Returns the Course.",
+      "method": "GET",
+      "path": "/public/courses/{course_id}",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "course_id",
+          "type": "string",
+          "location": "path",
+          "description": "Numeric course id (the 'id' field from a search result, e.g. 40830).",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "courses_search",
+      "description": "Search or browse approved courses across LACCD. Leave --query empty to browse a whole college (or all 9). Full-text matches course code, title, and description. Optional: query, status (default: approved), tenant (plus 3 more). Returns array of Course.",
+      "method": "GET",
+      "path": "/public/courses",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "query",
+          "type": "string",
+          "location": "query",
+          "description": "Search term matched against course code, title, and description (e.g. 'accounting', 'biology'). Optional — leave empty to browse the full catalog."
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "location": "query",
+          "description": "Course status filter (default 'approved' = the published public catalog)."
+        },
+        {
+          "name": "tenant",
+          "type": "string",
+          "location": "query",
+          "description": "Limit to one LACCD college by its eLumen tenant host, e.g. 'elac.elumenapp.com'. Run 'colleges list' for all 9 hosts. Omit to search the whole district."
+        },
+        {
+          "name": "page-size",
+          "wire_name": "pageSize",
+          "type": "int",
+          "location": "query",
+          "description": "Results per page (default 25)."
+        },
+        {
+          "name": "page",
+          "type": "int",
+          "location": "query",
+          "description": "Page number — 1-indexed. The first page is 1; page 0 triggers an upstream HTTP 502 (eLumen backend quirk)."
+        },
+        {
+          "name": "sort",
+          "type": "string",
+          "location": "query",
+          "description": "Sort spec, e.g. 'courseSubject,asc' or 'code,desc'."
+        }
+      ]
+    },
+    {
+      "name": "programs_get",
+      "description": "Fetch a single program by its numeric id, including award type, credit ranges, requirements, and SLOs. Required: program_id. Returns the Program.",
+      "method": "GET",
+      "path": "/public/programs/{program_id}",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "program_id",
+          "type": "string",
+          "location": "path",
+          "description": "Numeric program id (the 'id' field from a program search result, e.g. 255).",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "programs_search",
+      "description": "Search or browse LACCD degree and certificate programs. Leave --query empty to browse a college's full program list. Full-text matches program name and description. Optional: query, status, tenant (plus 2 more). Returns array of Program.",
+      "method": "GET",
+      "path": "/public/programs",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "query",
+          "type": "string",
+          "location": "query",
+          "description": "Search term matched against program name and description (e.g. 'nursing', 'business'). Optional — leave empty to browse all programs."
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "location": "query",
+          "description": "Program status filter (e.g. approved). Optional — omit to search all statuses."
+        },
+        {
+          "name": "tenant",
+          "type": "string",
+          "location": "query",
+          "description": "Limit to one LACCD college by its eLumen tenant host, e.g. 'pierce.elumenapp.com'. Run 'colleges list' for all 9 hosts. Omit to search the whole district."
+        },
+        {
+          "name": "page-size",
+          "wire_name": "pageSize",
+          "type": "int",
+          "location": "query",
+          "description": "Results per page (default 25)."
+        },
+        {
+          "name": "page",
+          "type": "int",
+          "location": "query",
+          "description": "Page number — 1-indexed. The first page is 1; page 0 triggers an upstream HTTP 502 (eLumen backend quirk)."
+        }
+      ]
+    }
+  ]
+}

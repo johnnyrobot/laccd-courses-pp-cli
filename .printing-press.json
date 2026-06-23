@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-06-23T01:24:48.297432Z",
+  "printing_press_version": "4.25.0",
+  "api_name": "laccd-courses",
+  "display_name": "LACCD Course Catalog",
+  "cli_name": "laccd-courses-pp-cli",
+  "creator": {
+    "handle": "johnnyrobot",
+    "name": "johnnyrobot"
+  },
+  "owner": "johnnyrobot",
+  "printer": "johnnyrobot",
+  "printer_name": "johnnyrobot",
+  "spec_format": "internal",
+  "spec_checksum": "sha256:0cb27fac81da8347be6a0afb2a4d0a3776ef8da6b0c9f16586d2577d4a11b0c4",
+  "run_id": "20260622-152754-09360b55",
+  "category": "other",
+  "description": "Search every LACCD course and program across all 9 colleges from your terminal — with cross-college comparison, prerequisite chains, and offline search the per-college web catalog can't do.",
+  "mcp_binary": "laccd-courses-pp-mcp",
+  "mcp_tool_count": 6,
+  "mcp_public_tool_count": 6,
+  "mcp_ready": "full",
+  "api_version": "0.1.0",
+  "auth_type": "none",
+  "novel_features": [
+    {
+      "name": "Cross-college course comparison",
+      "command": "courses compare",
+      "description": "Compare the same subject+number across the LACCD colleges you've synced — units, transfer status, and prerequisite count side by side."
+    },
+    {
+      "name": "Subject browse",
+      "command": "courses subjects",
+      "description": "List every distinct subject prefix you've synced with course counts, and pull all courses for one subject across colleges (e.g. 'courses subjects ACCTG')."
+    },
+    {
+      "name": "Mirror coverage check",
+      "command": "coverage",
+      "description": "Report how complete the local catalog mirror is per college — synced row counts vs the API's reported totals — before you trust offline search."
+    },
+    {
+      "name": "Prerequisite chain",
+      "command": "courses prereqs",
+      "description": "Walk a course's structured requisite blocks and print its prerequisite / advisory / corequisite chain with course codes and titles."
+    },
+    {
+      "name": "District catalog stats",
+      "command": "stats",
+      "description": "Aggregate the synced course store into per-college counts, units distribution, and transfer-status share — a district-wide view no per-college page provides."
+    }
+  ]
+}
