@@ -1,4 +1,4 @@
-module laccd-courses-pp-cli
+module github.com/johnnyrobot/laccd-courses-pp-cli
 
 go 1.26
 

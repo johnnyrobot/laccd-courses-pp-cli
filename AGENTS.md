@@ -14,7 +14,7 @@ make install-mcp # go install ./cmd/laccd-courses-pp-mcp
 ```
 Heads-up: the Makefile's `build` and `install` targets point at `./cmd/laccd-courses-pp-cli`, which is **not present in this working tree** (only `cmd/laccd-courses-pp-mcp` is), so they fail locally. To get the CLI binary, install the published package:
 ```bash
-go install github.com/mvanhorn/printing-press-library/library/other/laccd-courses/cmd/laccd-courses-pp-cli@latest
+go install github.com/johnnyrobot/laccd-courses-pp-cli/cmd/laccd-courses-pp-cli@latest
 ```
 Then discover capabilities at runtime rather than trusting a stale list:
 ```bash

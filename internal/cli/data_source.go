@@ -17,8 +17,8 @@ import (
 	"strings"
 	"time"
 
-	"laccd-courses-pp-cli/internal/client"
-	"laccd-courses-pp-cli/internal/store"
+	"github.com/johnnyrobot/laccd-courses-pp-cli/internal/client"
+	"github.com/johnnyrobot/laccd-courses-pp-cli/internal/store"
 )
 
 const networkFallbackReason = "api_unreachable"

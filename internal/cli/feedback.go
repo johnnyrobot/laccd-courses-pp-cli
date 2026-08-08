@@ -15,7 +15,7 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
-	"laccd-courses-pp-cli/internal/cliutil"
+	"github.com/johnnyrobot/laccd-courses-pp-cli/internal/cliutil"
 )
 
 // FeedbackEntry is one line in the local feedback ledger. Every run of
