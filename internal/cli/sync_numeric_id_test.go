@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"laccd-courses-pp-cli/internal/store"
+	"github.com/johnnyrobot/laccd-courses-pp-cli/internal/store"
 )
 
 func TestSyncSingleObject_PreservesLargeIntegerResourceIDs(t *testing.T) {

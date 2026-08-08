@@ -13,9 +13,9 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
-	"laccd-courses-pp-cli/internal/client"
-	"laccd-courses-pp-cli/internal/cliutil"
-	"laccd-courses-pp-cli/internal/config"
+	"github.com/johnnyrobot/laccd-courses-pp-cli/internal/client"
+	"github.com/johnnyrobot/laccd-courses-pp-cli/internal/cliutil"
+	"github.com/johnnyrobot/laccd-courses-pp-cli/internal/config"
 )
 
 type rootFlags struct {

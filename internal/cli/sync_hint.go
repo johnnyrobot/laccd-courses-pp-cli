@@ -12,7 +12,7 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
-	"laccd-courses-pp-cli/internal/store"
+	"github.com/johnnyrobot/laccd-courses-pp-cli/internal/store"
 )
 
 type syncHintState struct {

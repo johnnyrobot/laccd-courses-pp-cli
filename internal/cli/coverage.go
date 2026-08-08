@@ -11,8 +11,8 @@ import (
 	"os"
 	"sync"
 
-	"laccd-courses-pp-cli/internal/cliutil"
-	"laccd-courses-pp-cli/internal/store"
+	"github.com/johnnyrobot/laccd-courses-pp-cli/internal/cliutil"
+	"github.com/johnnyrobot/laccd-courses-pp-cli/internal/store"
 
 	"github.com/spf13/cobra"
 )

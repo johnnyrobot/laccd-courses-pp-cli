@@ -10,7 +10,7 @@ import (
 	"testing"
 
 	mcplib "github.com/mark3labs/mcp-go/mcp"
-	"laccd-courses-pp-cli/internal/cliutil"
+	"github.com/johnnyrobot/laccd-courses-pp-cli/internal/cliutil"
 )
 
 func TestMCPPathResolutionMatchesCLIResolverWithHomeEnv(t *testing.T) {

@@ -22,7 +22,7 @@ import (
 
 	mcplib "github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
-	"laccd-courses-pp-cli/internal/mcp/cobratree"
+	"github.com/johnnyrobot/laccd-courses-pp-cli/internal/mcp/cobratree"
 )
 
 // RegisterIntents adds generated intent tools to the MCP server.

@@ -13,7 +13,7 @@ metadata:
     install:
       - kind: go
         bins: [laccd-courses-pp-cli]
-        module: github.com/mvanhorn/printing-press-library/library/other/laccd-courses/cmd/laccd-courses-pp-cli
+        module: github.com/johnnyrobot/laccd-courses-pp-cli/cmd/laccd-courses-pp-cli
 ---
 
 # LACCD Course Catalog — Printing Press CLI
@@ -22,18 +22,14 @@ metadata:
 
 This skill drives the `laccd-courses-pp-cli` binary. **You must verify the CLI is installed before invoking any command from this skill.** If it is missing, install it first:
 
-1. Install via the Printing Press installer. It defaults binaries to `$HOME/.local/bin` on macOS/Linux and `%LOCALAPPDATA%\Programs\PrintingPress\bin` on Windows:
+1. Install via Go (requires Go 1.26.4 or newer). This installs into `$GOPATH/bin` (default `$HOME/go/bin`):
    ```bash
-   npx -y @mvanhorn/printing-press-library install laccd-courses --cli-only
+   go install github.com/johnnyrobot/laccd-courses-pp-cli/cmd/laccd-courses-pp-cli@latest
    ```
 2. Verify: `laccd-courses-pp-cli --version`
-3. Ensure the reported install directory is on `$PATH` for the agent/runtime that will invoke this skill.
+3. Ensure the install directory is on `$PATH` for the agent/runtime that will invoke this skill.
 
-If the `npx` install fails (no Node, offline, etc.), fall back to a direct Go install (requires Go 1.26.4 or newer). This installs into `$GOPATH/bin` (default `$HOME/go/bin`), so add that directory to `$PATH` instead:
-
-```bash
-go install github.com/mvanhorn/printing-press-library/library/other/laccd-courses/cmd/laccd-courses-pp-cli@latest
-```
+If Go is unavailable, download a pre-built binary from the [latest release](https://github.com/johnnyrobot/laccd-courses-pp-cli/releases/latest) and put it on `$PATH`.
 
 If `--version` reports "command not found" after install, the runtime cannot see the binary directory on `$PATH`. Do not proceed with skill commands until verification succeeds.
 
@@ -301,7 +297,7 @@ Parse `$ARGUMENTS`:
 
 1. Install the MCP server:
    ```bash
-   go install github.com/mvanhorn/printing-press-library/library/other/laccd-courses/cmd/laccd-courses-pp-mcp@latest
+   go install github.com/johnnyrobot/laccd-courses-pp-cli/cmd/laccd-courses-pp-mcp@latest
    ```
 2. Register with Claude Code:
    ```bash

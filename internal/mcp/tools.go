@@ -16,12 +16,12 @@ import (
 
 	mcplib "github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
-	"laccd-courses-pp-cli/internal/cli"
-	"laccd-courses-pp-cli/internal/client"
-	"laccd-courses-pp-cli/internal/cliutil"
-	"laccd-courses-pp-cli/internal/config"
-	"laccd-courses-pp-cli/internal/mcp/cobratree"
-	"laccd-courses-pp-cli/internal/store"
+	"github.com/johnnyrobot/laccd-courses-pp-cli/internal/cli"
+	"github.com/johnnyrobot/laccd-courses-pp-cli/internal/client"
+	"github.com/johnnyrobot/laccd-courses-pp-cli/internal/cliutil"
+	"github.com/johnnyrobot/laccd-courses-pp-cli/internal/config"
+	"github.com/johnnyrobot/laccd-courses-pp-cli/internal/mcp/cobratree"
+	"github.com/johnnyrobot/laccd-courses-pp-cli/internal/store"
 )
 
 const (
