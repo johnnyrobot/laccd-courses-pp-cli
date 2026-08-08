@@ -7,6 +7,7 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+	"net/http"
 	"os"
 	"strings"
 	"text/tabwriter"
@@ -257,11 +258,38 @@ See README.md or the bundled SKILL.md for recipes.`,
 	return rootCmd
 }
 
+// ExitCode maps err to the exit-code contract documented in README.md:
+// 0 ok, 2 usage, 3 not found, 4 auth, 5 API error, 7 rate limited,
+// 10 config, 1 for anything unclassified.
+//
+// An explicit cliError always wins. Failing that, a *client.APIError is
+// classified by HTTP status wherever it appears in the wrap chain: most
+// command bodies return `fmt.Errorf("...: %w", err)` around a client
+// call rather than reaching for apiErr/notFoundErr by hand, and without
+// this fallback every one of those collapsed to a bare 1. That was the
+// whole of issue #1 — callers branching on the documented codes got no
+// signal and had to sniff stderr for HTTP statuses instead.
 func ExitCode(err error) int {
 	var codeErr *cliError
 	if As(err, &codeErr) {
 		return codeErr.code
 	}
+
+	var apiError *client.APIError
+	if As(err, &apiError) {
+		switch {
+		case apiError.StatusCode == http.StatusNotFound:
+			return 3
+		case apiError.StatusCode == http.StatusUnauthorized,
+			apiError.StatusCode == http.StatusForbidden:
+			return 4
+		case apiError.StatusCode == http.StatusTooManyRequests:
+			return 7
+		case apiError.StatusCode >= 400:
+			return 5
+		}
+	}
+
 	return 1
 }
 
