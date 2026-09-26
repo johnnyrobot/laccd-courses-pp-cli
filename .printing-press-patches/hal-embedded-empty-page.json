@@ -1,0 +1,16 @@
+{
+  "schema_version": 2,
+  "id": "hal-embedded-empty-page",
+  "applied_at": "2026-08-13",
+  "base_run_id": "20260622-152754-09360b55",
+  "base_printing_press_version": "4.25.0",
+  "summary": "Add HAL's _embedded to dataEnvelopeKeys so an exhausted eLumen page is recognized as empty, and correct the --diff-only description in courses compare and which.",
+  "reason": "eLumen returns {\"_embedded\":{\"courses\":[...]},\"_links\":{...},\"pagination\":{...}}. _embedded was not in dataEnvelopeKeys, so isEmptyPageResponse could not see that an exhausted page holds an empty item array; syncResource then fell through to its single-object path and failed the whole resource with 'missing id for courses'. This is reachable whenever a stored cursor points past the end of a filtered result set - it is exactly what happened running the sync command that `courses compare --help` prescribes against an already-populated mirror. Separately, the compare long help claimed --diff-only 'collapses identical colleges', but courses_compare.go only nulls the rows when every college matches; the flag's own one-line description was already accurate.",
+  "files": [
+    "internal/cli/sync.go",
+    "internal/cli/sync_embedded_test.go",
+    "internal/cli/courses_compare.go",
+    "internal/cli/which.go"
+  ],
+  "validated_outcome": "New TestIsEmptyPageResponseHandlesHALEmbedded fails on the pre-patch envelope list (exhausted page and programs cases) and passes with _embedded added; TestExtractPageItemsHandlesHALEmbedded confirms a populated HAL page still yields its items, so the added key cannot turn a full page into an empty one. `courses compare ACCTG 001` still returns 9 colleges and 3 distinct profiles. Full Go suite passes."
+}

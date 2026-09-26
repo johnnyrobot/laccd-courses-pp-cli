@@ -47,9 +47,10 @@ func newNovelCoursesCompareCmd(flags *rootFlags) *cobra.Command {
 		Use:   "compare <subject> <number>",
 		Short: "Compare one course across LACCD colleges — units, transfer status, prerequisites",
 		Long: "Align a single subject+number across every LACCD college that has it synced locally:\n" +
-			"units, transfer status, and prerequisite count side by side. --diff-only collapses\n" +
-			"identical colleges so you see only whether (and where) they differ — the rows that\n" +
-			"break a transfer.\n\n" +
+			"units, transfer status, and prerequisite count side by side — the rows that break a\n" +
+			"transfer. --diff-only suppresses the rows entirely when every college matches, so a\n" +
+			"scripted check stays quiet until something actually diverges; when they differ you\n" +
+			"still get every college back, not just the odd ones out.\n\n" +
 			"Reads the local mirror. Sync the subject first, e.g.\n" +
 			"  laccd-courses-pp-cli sync --resources courses --resource-param courses:query=ACCTG\n" +
 			"For free-text discovery use 'courses search'; for one course's full record use 'courses get'.",

@@ -1501,7 +1501,13 @@ var pageItemKeys = []string{
 	"Data", "Results", "Items", "Records", "Nodes", "Entries", "Features",
 }
 
-var dataEnvelopeKeys = []string{"data", "Data", "result", "Result"}
+// _embedded is the HAL wrapper eLumen uses ({"_embedded":{"courses":[...]},
+// "_links":{...},"pagination":{...}}). Without it an exhausted page —
+// _embedded.courses == [] — is not recognized as empty, and sync falls
+// through to the single-object path and dies with "missing id for courses".
+// That only bites when a stored cursor points past the end of a filtered
+// result set, e.g. re-syncing with --resource-param courses:query=ACCTG.
+var dataEnvelopeKeys = []string{"data", "Data", "result", "Result", "_embedded"}
 
 var pageMetadataArrayKeys = map[string]bool{
 	"errors": true, "Errors": true,
